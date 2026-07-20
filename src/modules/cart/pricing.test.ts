@@ -74,7 +74,7 @@ describe("getBttfDiscountInfo", () => {
     expect(info.distinctEpisodes).toBe(2);
     expect(info.discountRate).toBe(0.9);
     expect(info.baseCost).toBe(30);
-    expect(info.savings).toBeCloseTo(3);
+    expect(info.savings).toBe(3);
   });
 
   test("three distinct episodes gives 20% discount", () => {
@@ -82,13 +82,13 @@ describe("getBttfDiscountInfo", () => {
     expect(info.distinctEpisodes).toBe(3);
     expect(info.discountRate).toBe(0.8);
     expect(info.baseCost).toBe(45);
-    expect(info.savings).toBeCloseTo(9);
+    expect(info.savings).toBe(9);
   });
 
   test("duplicates count toward quantity but not distinct", () => {
     const info = getBttfDiscountInfo({ 1: 2, 2: 1, 3: 1 });
     expect(info.totalQuantity).toBe(4);
     expect(info.distinctEpisodes).toBe(3);
-    expect(info.savings).toBeCloseTo(12);
+    expect(info.savings).toBe(12);
   });
 });
