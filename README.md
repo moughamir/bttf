@@ -5,6 +5,7 @@ A web application that calculates the total price of a DVD basket, applying dyna
 Built as a technical exercise for [Ekinox](https://ekinox.io), demonstrating clean architecture, domain-driven design, and production-quality code practices.
 
 > Uses Bun's native test runner, no additional dependencies.
+
 ## Tech Stack
 | Technology | Purpose |
 |------------|---------|
@@ -17,10 +18,12 @@ Built as a technical exercise for [Ekinox](https://ekinox.io), demonstrating cle
 ### Prerequisites
 - [Bun](https://bun.sh) v1.0+
 ### Installation
-- `gh repo clone moughamir/bttf`
-- `cd bttf && bun i`
+- `git clone https://github.com/moughamir/bttf.git`
+- `cd bttf && bun install`
+### Run the app
+- `bun run dev`
 ### Testing
-- `bun run test`
+- `bun test`
 
 ### Pricing Rules
 | Scenario | Rule |
@@ -31,3 +34,6 @@ Built as a technical exercise for [Ekinox](https://ekinox.io), demonstrating cle
 | Standard movies | €20 each (flat) |
 
 > **Example:** 4 BTTF DVDs (3 distinct) = (4 × €15) × 0.80 = **€48**
+
+## Credits
+[Credits](CREDITS.md) | [License](LICENSE.md)
