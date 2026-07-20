@@ -1,4 +1,5 @@
-export const BTTF_PATTERN = /^back to the future\s+([123])$/i;
+export const BTTF_PATTERN =
+  /^back to the future(?:\s+(?:([123])|([Ii]{1,3})))?$/i;
 export const BTTF_BASE_PRICE = 15;
 export const MOVIE_STANDARD_PRICE = 20;
 
