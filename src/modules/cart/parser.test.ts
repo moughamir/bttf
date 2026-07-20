@@ -56,6 +56,42 @@ describe("parseCartInput", () => {
     });
   });
 
+  describe("edge cases - title variants", () => {
+    test("matches 'Back To The Future' without episode number as episode 1", () => {
+      const result = parseCartInput("Back To The Future");
+      expect(result.bttf).toEqual({ 1: 1, 2: 0, 3: 0 });
+      expect(result.otherMovies).toBe(0);
+    });
+
+    test("matches 'back to the future' lowercase without episode number", () => {
+      const result = parseCartInput("back to the future");
+      expect(result.bttf).toEqual({ 1: 1, 2: 0, 3: 0 });
+    });
+
+    test("matches Roman numeral 'I' as episode 1", () => {
+      const result = parseCartInput("Back To The Future I");
+      expect(result.bttf).toEqual({ 1: 1, 2: 0, 3: 0 });
+      expect(result.otherMovies).toBe(0);
+    });
+
+    test("matches Roman numeral 'II' as episode 2", () => {
+      const result = parseCartInput("Back To The Future II");
+      expect(result.bttf).toEqual({ 1: 0, 2: 1, 3: 0 });
+      expect(result.otherMovies).toBe(0);
+    });
+
+    test("matches Roman numeral 'III' as episode 3", () => {
+      const result = parseCartInput("Back To The Future III");
+      expect(result.bttf).toEqual({ 1: 0, 2: 0, 3: 1 });
+      expect(result.otherMovies).toBe(0);
+    });
+
+    test("matches lowercase roman numerals", () => {
+      const result = parseCartInput("back to the future ii");
+      expect(result.bttf).toEqual({ 1: 0, 2: 1, 3: 0 });
+    });
+  });
+
   describe("multi-line input", () => {
     test("parses newline-separated items and counts each movie", () => {
       const input = `
