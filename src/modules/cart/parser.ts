@@ -1,5 +1,5 @@
 import { BTTF_PATTERN } from "./constants";
-import type { BttfEpisode, ParseResult } from "./types";
+import type { BttfEpisode, BttfCart, ParseResult } from "./types";
 
 const ROMAN_TO_NUM: Record<string, BttfEpisode> = {
   i: 1,
@@ -8,11 +8,11 @@ const ROMAN_TO_NUM: Record<string, BttfEpisode> = {
 };
 
 export function parseCartInput(input: string): ParseResult {
-  const bttf = {
+  const bttf: BttfCart = {
     1: 0,
     2: 0,
     3: 0,
-  } as Record<BttfEpisode, number>;
+  };
   let otherMovies = 0;
 
   if (!input.trim()) return { bttf, otherMovies };
@@ -25,11 +25,14 @@ export function parseCartInput(input: string): ParseResult {
   for (const line of lines) {
     const match = line.match(BTTF_PATTERN);
     if (match) {
-      const episode: BttfEpisode = match[1]
-        ? Number(match[1]) as BttfEpisode
-        : match[2]
-          ? (ROMAN_TO_NUM[match[2].toLowerCase()] as BttfEpisode)
-          : 1;
+      let episode: BttfEpisode;
+      if (match[1]) {
+        episode = Number(match[1]) as BttfEpisode;
+      } else if (match[2]) {
+        episode = ROMAN_TO_NUM[match[2].toLowerCase()] as BttfEpisode;
+      } else {
+        episode = 1;
+      }
       bttf[episode]++;
     } else {
       otherMovies++;
