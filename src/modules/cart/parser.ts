@@ -1,7 +1,7 @@
-import { BTTF_PATTERN } from "@/shared/constants";
-import type { BttfEpisode, ParseResult } from "@/shared/types";
+import { BTTF_PATTERN } from "./constants";
+import type { BttfEpisode, ParseResult } from "./types";
 
-export function parseBasketInput(input: string): ParseResult {
+export function parseCartInput(input: string): ParseResult {
   const bttf = {
     1: 0,
     2: 0,

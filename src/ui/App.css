@@ -1,0 +1,125 @@
+.app {
+    max-width: 1050px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 851px) {
+    .app {
+        height: 100vh;
+        height: 100dvh;
+        overflow: hidden;
+        padding: 1.5dvh 2rem;
+    }
+}
+
+.hero {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 2rem 1rem;
+    background: radial-gradient(
+        circle at center,
+        rgba(124, 58, 237, 0.15) 0%,
+        transparent 70%
+    );
+    border-radius: var(--radius);
+    border-bottom: 1px solid var(--color-border);
+}
+
+@media (min-width: 851px) {
+    .hero {
+        margin-bottom: 1.5dvh;
+        padding: 1dvh 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: left;
+    }
+}
+
+.hero-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.badge {
+    display: inline-block;
+    background-color: var(--color-accent);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+}
+
+@media (min-width: 851px) {
+    .badge {
+        margin-bottom: 0;
+    }
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    background: linear-gradient(
+        135deg,
+        var(--color-primary) 0%,
+        var(--color-accent) 100%
+    );
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+    filter: drop-shadow(0 0 10px rgba(124, 58, 237, 0.4));
+}
+
+@media (min-width: 851px) {
+    .title {
+        font-size: clamp(1.8rem, 3.5dvh, 2.5rem);
+        margin-bottom: 0.1dvh;
+    }
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: var(--color-secondary);
+    font-weight: 400;
+}
+
+@media (min-width: 851px) {
+    .subtitle {
+        font-size: clamp(0.85rem, 1.6dvh, 1.1rem);
+    }
+}
+
+main {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.footer {
+    margin-top: 2rem;
+    text-align: center;
+    color: var(--color-muted);
+    font-size: 0.875rem;
+    border-top: 1px solid var(--color-border);
+    padding-top: 1rem;
+}
+
+@media (min-width: 851px) {
+    .footer {
+        margin-top: 1.5dvh;
+        padding-top: 1dvh;
+        font-size: clamp(0.75rem, 1.3dvh, 0.875rem);
+    }
+}
+

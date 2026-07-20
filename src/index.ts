@@ -1,39 +1,36 @@
 import { serve } from "bun";
 import index from "./index.html";
+import { parseCartInput, calculateCartTotal } from "@/modules/cart";
 
 const server = serve({
   routes: {
-    // Serve index.html for all unmatched routes.
     "/*": index,
 
-    "/api/hello": {
-      async GET(req) {
-        return Response.json({
-          message: "Hello, world!",
-          method: "GET",
-        });
-      },
-      async PUT(req) {
-        return Response.json({
-          message: "Hello, world!",
-          method: "PUT",
-        });
-      },
-    },
+    "/api/cart/price": {
+      async POST(req) {
+        try {
+          const body = await req.json();
+          if (typeof body.items !== "string") {
+            return Response.json({ error: "Le champ 'items' doit être une chaîne de caractères" }, { status: 400 });
+          }
 
-    "/api/hello/:name": async req => {
-      const name = req.params.name;
-      return Response.json({
-        message: `Hello, ${name}!`,
-      });
+          const { bttf, otherMovies } = parseCartInput(body.items);
+          const price = calculateCartTotal(bttf, otherMovies);
+          return Response.json({ price, bttf, otherMovies });
+        } catch {
+          return Response.json(
+            {
+              error: "Requete invalide",
+            },
+            { status: 400 },
+          );
+        }
+      },
     },
   },
 
   development: process.env.NODE_ENV !== "production" && {
-    // Enable browser hot reloading in development
     hmr: true,
-
-    // Echo console logs from the browser to the server
     console: true,
   },
 });

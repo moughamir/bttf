@@ -1,12 +1,8 @@
-import {
-  BTTF_BASE_PRICE,
-  DISCOUNT_TABLE,
-  MOVIE_STANDARD_PRICE,
-} from "@/shared/constants";
-import type { BttfBasket } from "@/shared/types";
+import { BTTF_BASE_PRICE, DISCOUNT_TABLE, MOVIE_STANDARD_PRICE } from "./constants";
+import type { BttfCart } from "./types";
 
-export function calculateBasketTotal(
-  bttf: BttfBasket,
+export function calculateCartTotal(
+  bttf: BttfCart,
   otherMoviesCount: number,
 ): number {
   const totalBttf = Object.values(bttf).reduce((sum, qty) => sum + qty, 0);
