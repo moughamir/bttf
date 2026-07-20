@@ -1,10 +1,10 @@
-import { useState, useMemo, type ChangeEvent } from "react";
-import { EXAMPLES } from "@/modules/cart";
+import { useState, type ChangeEvent } from "react";
+import { EXAMPLES, getBttfDiscountInfo, type BttfCart } from "@/modules/cart";
 import "./CartManager.css";
 
 interface CartPriceResult {
   price: number;
-  bttf: Record<string, number>;
+  bttf: BttfCart;
   otherMovies: number;
 }
 
@@ -13,11 +13,6 @@ export function CartManager() {
   const [result, setResult] = useState<CartPriceResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-
-  const receiptNumber = useMemo(
-    () => Math.floor(100000 + Math.random() * 900000),
-    [result],
-  );
 
   const handleExampleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const selected = EXAMPLES.find(
@@ -56,12 +51,17 @@ export function CartManager() {
         body: JSON.stringify({ items }),
       });
       if (!res.ok) {
-        throw new Error("Erreur de calcul.");
+        const body = await res.json().catch(() => null);
+        throw new Error(body?.error ?? `Erreur serveur (${res.status})`);
       }
       const data = (await res.json()) as CartPriceResult;
       setResult(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : String(err));
+      if (err instanceof TypeError && err.message === "Failed to fetch") {
+        setError("Impossible de contacter le serveur.");
+      } else {
+        setError(err instanceof Error ? err.message : String(err));
+      }
       setResult(null);
     } finally {
       setLoading(false);
@@ -223,7 +223,7 @@ export function CartManager() {
               <h3>CINÉPHILE RETRO STORE</h3>
               <p>2000 temporal road, Hill Valley</p>
               <p className="receipt-ref">
-                TICKET: #{receiptNumber}
+                TICKET: #{Math.floor(100000 + Math.random() * 900000)}
               </p>
             </div>
 
@@ -231,19 +231,11 @@ export function CartManager() {
 
             {/* BTTF Group */}
             {(() => {
-              const totalBttf = Object.values(result.bttf).reduce(
-                (a, b) => a + b,
-                0,
-              );
-              const distinctBttf = Object.values(result.bttf).filter(
-                (q) => q > 0,
-              ).length;
-              if (totalBttf === 0) return null;
+              const info = getBttfDiscountInfo(result.bttf);
+              if (info.totalQuantity === 0) return null;
 
               const discountPct =
-                distinctBttf === 3 ? 20 : distinctBttf === 2 ? 10 : 0;
-              const baseCost = totalBttf * 15;
-              const saved = baseCost * (discountPct / 100);
+                info.distinctEpisodes === 3 ? 20 : info.distinctEpisodes === 2 ? 10 : 0;
 
               return (
                 <div className="receipt-group">
@@ -266,13 +258,13 @@ export function CartManager() {
 
                   <div className="receipt-sub-row">
                     <span>Sous-total Brut</span>
-                    <span>{baseCost.toFixed(2)} €</span>
+                    <span>{info.baseCost.toFixed(2)} €</span>
                   </div>
 
                   {discountPct > 0 && (
                     <div className="receipt-sub-row discount">
                       <span>Remise Bundle ({discountPct}%)</span>
-                      <span>-{saved.toFixed(2)} €</span>
+                      <span>-{info.savings.toFixed(2)} €</span>
                     </div>
                   )}
                 </div>

@@ -17,7 +17,8 @@ const server = serve({
           const { bttf, otherMovies } = parseCartInput(body.items);
           const price = calculateCartTotal(bttf, otherMovies);
           return Response.json({ price, bttf, otherMovies });
-        } catch {
+        } catch (err) {
+          console.error("Cart price calculation failed:", err);
           return Response.json(
             {
               error: "Requete invalide",
